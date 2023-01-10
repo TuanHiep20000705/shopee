@@ -1,33 +1,35 @@
 package com.mth.example.shoppe
 
-import android.widget.ScrollView
-import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.scrollable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.InspectableModifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,7 +38,6 @@ import com.mth.example.shoppe.ui.theme.OrangeYellow1
 import com.mth.example.shoppe.ui.theme.SaleYellow
 import com.mth.example.shoppe.ui.theme.ShopeeQrange
 import java.text.DecimalFormat
-import java.text.SimpleDateFormat
 
 @Composable
 fun HeaderSection(
@@ -54,47 +55,51 @@ fun HeaderSection(
             alignment = Alignment.TopCenter,
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.8f)
+                .fillMaxHeight()
         )
-        Box(modifier = Modifier.fillMaxWidth()) {
-            SearchBar()
-            Row(
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .padding(end = 10.dp)
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_cart),
-                    contentDescription = "cart",
-                    tint = Color.White,
-                    modifier = Modifier.size(28.dp)
-                )
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_message2),
-                    contentDescription = "cart",
-                    tint = Color.White,
-                    modifier = Modifier.size(28.dp)
-                )
-            }
-        }
-        PayBar(
+
+        Row(
             modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .clip(RoundedCornerShape(7.dp))
-                .border(0.7.dp, Color.Gray)
-        )
+                .padding(end = 10.dp)
+                .align(Alignment.CenterEnd),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            SearchBar(
+                modifier = Modifier
+                    .padding(
+                        start = 10.dp
+                    )
+                    .background(Color.White)
+                    .height(40.dp)
+                    .weight(0.7f)
+            )
+            Icon(
+                painter = painterResource(id = R.drawable.ic_cart),
+                contentDescription = "cart",
+                tint = Color.White,
+                modifier = Modifier.size(28.dp).weight(0.15f)
+            )
+            Icon(
+                painter = painterResource(id = R.drawable.ic_message2),
+                contentDescription = "cart",
+                tint = Color.White,
+                modifier = Modifier.size(28.dp).weight(0.15f)
+            )
+        }
     }
 }
 
 @Composable
-fun SearchBar() {
+fun SearchBar(
+    modifier: Modifier = Modifier
+        .background(Color.White)
+        .fillMaxWidth(0.7f)
+        .padding(horizontal = 5.dp)
+        .clip(RoundedCornerShape(5.dp))
+) {
     Box(
-        modifier = Modifier
-            .padding(7.dp)
-            .background(Color.White)
-            .fillMaxWidth(0.7f)
-            .padding(horizontal = 5.dp, vertical = 10.dp)
-            .clip(RoundedCornerShape(5.dp))
+        modifier = modifier,
+        contentAlignment = Alignment.CenterStart
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
@@ -108,7 +113,6 @@ fun SearchBar() {
                 color = OrangeYellow1,
                 fontSize = 14.sp
             )
-
         }
         Icon(
             painter = painterResource(id = R.drawable.ic_camera),
@@ -127,20 +131,32 @@ fun PayBar(
     modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = modifier
-            .fillMaxWidth(0.9f)
-            .background(Color.White)
-            .padding(10.dp)
-
+        modifier = modifier,
+        contentAlignment = Alignment.Center
     ) {
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_scan),
                 contentDescription = "scan",
                 modifier = Modifier
-                    .padding(20.dp)
+                    .padding(start = 10.dp)
                     .size(28.dp)
                     .align(Alignment.CenterVertically)
+            )
+            Box(
+                modifier = Modifier
+                    .padding(
+                        horizontal = 8.dp
+                    )
+                    .width(1.dp)
+                    .fillMaxHeight(0.7f)
+                    .align(Alignment.CenterVertically)
+                    .background(
+                        color = Color.Black
+
+                    )
             )
             Row(
                 horizontalArrangement = Arrangement.Center,
@@ -149,7 +165,7 @@ fun PayBar(
                 Column(modifier = Modifier.fillMaxWidth(0.5f)) {
                     Text(
                         text = "Ví ShopeePay",
-                        fontSize = 16.sp,
+                        fontSize = 16.sp
                     )
                     Text(
                         text = "Voucher giảm đến 40.000đ",
@@ -158,10 +174,23 @@ fun PayBar(
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
+                Box(
+                    modifier = Modifier
+                        .padding(
+                            horizontal = 8.dp
+                        )
+                        .width(1.dp)
+                        .fillMaxHeight(0.7f)
+                        .align(Alignment.CenterVertically)
+                        .background(
+                            color = Color.Black
+
+                        )
+                )
                 Column(modifier = Modifier.fillMaxWidth(1f)) {
                     Text(
                         text = "$money Xu",
-                        fontSize = 16.sp,
+                        fontSize = 16.sp
                     )
                     Text(
                         text = "Đổi xu lấy mã giảm giá",
@@ -175,7 +204,15 @@ fun PayBar(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+@Preview
+@Composable
+private fun PreviewPayBar() {
+    PayBar(
+        money = 100000,
+        modifier = Modifier.fillMaxWidth().height(60.dp)
+    )
+}
+
 @Composable
 fun FeatureSection(
     modifier: Modifier,
@@ -187,13 +224,16 @@ fun FeatureSection(
 ) {
     LazyHorizontalGrid(
         modifier = modifier
-            .padding(10.dp),
+            .padding(
+                top = 80.dp
+            ),
         rows = GridCells.Fixed(rowNumber),
         contentPadding = PaddingValues(
             start = 3.dp,
             end = 3.dp,
             bottom = 12.dp
         ),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
         content = {
             items(listFeature.size) {
                 FeatureItem(listFeature[it], sizeIcon, sizeText, colorText)
@@ -207,9 +247,12 @@ private fun FeatureItem(
     feature: Feature,
     sizeIcon: Int,
     sizeText: Int,
-    colorText: Color,
+    colorText: Color
 ) {
-    Column {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.width(80.dp)
+    ) {
         Image(
             modifier = Modifier
                 .size(sizeIcon.dp)
@@ -222,7 +265,8 @@ private fun FeatureItem(
             fontSize = sizeText.sp,
             fontWeight = FontWeight.Normal,
             color = colorText,
-            modifier = Modifier.fillMaxWidth(0.5f)
+            modifier = Modifier.padding(top = 8.dp).fillMaxWidth(0.5f),
+            textAlign = TextAlign.Center
         )
     }
 }
@@ -235,7 +279,7 @@ fun FlashSaleSection(
     Column {
         Image(
             painter = painterResource(id = R.drawable.flash_sale),
-            contentDescription = "flashsale",
+            contentDescription = "flashsale"
         )
         LazyRow(
             contentPadding = PaddingValues(
@@ -294,7 +338,6 @@ fun FlashSaleProductItem(
                     )
                 }
             }
-
         }
         val dcf = DecimalFormat("###,###")
         Text(
@@ -362,7 +405,8 @@ fun ProductSection(
             items(listProduct.size) {
                 ProductItem(product = listProduct[it])
             }
-        })
+        }
+    )
 }
 
 @Composable
@@ -424,12 +468,11 @@ fun BottomMenu(
 @Composable
 fun BottomMenuItem(
     item: BottomMenuContent,
-    isSelected: Boolean= false,
+    isSelected: Boolean = false,
     activeHighlightColor: Color = ShopeeQrange,
     onItemClick: () -> Unit
 ) {
     Column {
-
     }
 }
 
@@ -440,4 +483,3 @@ fun ScreenPreview() {
 //    ProductItem(product = Product("Áo Polo Nam Cổ Bẻ Thun", R.drawable.img_product1, 69000))
 //    FlashSaleProductItem(flashSaleProduct = FlashSaleProduct(100, R.drawable.sale1, 8))
 }
-
