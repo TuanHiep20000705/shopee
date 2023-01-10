@@ -1,14 +1,18 @@
 package com.mth.example.shoppe
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -18,20 +22,32 @@ import com.mth.example.shoppe.ui.theme.ShopeeQrange
 
 @Composable
 fun HomeScreen() {
+    val screenHeight = LocalConfiguration.current.screenHeightDp
     val scrollState = rememberScrollState()
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(ShopeeQrange)
             .verticalScroll(scrollState)
     ) {
         Column {
             HeaderSection(modifier = Modifier.background(ShopeeQrange))
+            PayBar(
+                modifier = Modifier
+                    .padding(
+                        horizontal = 10.dp
+                    )
+                    .height(60.dp)
+                    .background(
+                        color = Color.White,
+                        shape = RoundedCornerShape(7.dp)
+                    )
+            )
             FeatureSection(
                 modifier = Modifier
                     .background(ShopeeQrange)
                     .fillMaxWidth()
-                    .height(200.dp),
+                    .height(300.dp),
                 listOf(
                     Feature("Khung Giờ Săn Sale", R.drawable.ic_feature1),
                     Feature("Gì Cũng Rẻ", R.drawable.ic_feature2),
